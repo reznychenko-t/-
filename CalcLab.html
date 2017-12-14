@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>Резниченко Тетяна</title>
+
+<style type="text/css">
+	body {
+  background-image: url(https://html-templates.info/images/pages/140520040122.jpg);
+}
+
+table {
+    position: absolute;
+    height: 500px;
+width:360px; 
+    top: 10%;
+    left: 40%;
+    border: 1px solid DarkGray;
+     box-shadow: 0 0 3px rgba(0,0,0,0.5);
+    text-align:center;
+     border-radius: 20px;
+     overflow: hidden;
+   background: linear-gradient(to top, rgba(30,87,153,0), rgba(30,87,153,0.8), rgba(30,87,153,1),
+                      rgba(30,87,153,1), rgba(41,137,216,1), rgba(30,87,153,1), rgba(30,87,153,1),
+                      rgba(30,87,153,0.8),rgba(30,87,153,0));
+
+
+  
+
+}
+  }
+  table td {
+    border:4px solid gray;
+    width:360px;
+    height: 60px;
+    border-spacing: 0px;
+    
+
+     }
+
+    table td input{
+  border:0px; 
+  font-size: 30px;
+   width:90px;
+  height: 100%;
+  font-family: Roboto;
+  background-color: rgba(255, 255, 255, 0.0);
+  color: #FFFFF0;
+    
+  
+}
+
+    #Equals{
+       background-color: rgba(0, 255, 255,0.3);
+    width:365px;
+     height: 100%;
+     margin-right: -5px;
+          overflow: hidden;
+          border-bottom-right-radius:  20px;
+          border-bottom-left-radius:  20px;
+      
+  }
+  #display{
+    width:365px;
+    height: 100%;
+    text-align: right;
+    font-size: 40px;
+     font-family: Roboto;
+     background-color: rgba(255, 245, 238,0.3);
+    margin-right: -5px;  
+  }
+</style>
+<script type="text/javascript">
+var Currents = 0;
+var FlagNewNum = false;
+var PendingOp = "";
+
+
+// обработчик нажатия 
+// цифровой кнопки
+function GetNumber (Num) 
+{
+    if (FlagNewNum) 
+    {
+      document.calc.NumberOut.value = Num;
+      FlagNewNum = false;
+    } 
+    else 
+    {
+      if (document.calc.NumberOut.value == "0")
+        document.calc.NumberOut.value = Num;
+      else
+        document.calc.NumberOut.value += Num;
+    }
+}
+  
+// обработчик нажатия
+// кнопки действия
+function Operation (Op) 
+{
+    var Numberout = document.calc.NumberOut.value;
+    if (FlagNewNum && PendingOp != "=")
+    {
+      document.calc.NumberOut.value = Currents;
+    }
+    else
+    {
+      FlagNewNum = true;
+      if ( '+' == PendingOp )
+        Currents += parseFloat(Numberout);
+      else if ( '-' == PendingOp )
+        Currents -= parseFloat(Numberout);
+      else if ( '/' == PendingOp )
+        Currents /= parseFloat(Numberout);
+      else if ( '*' == PendingOp )
+        Currents *= parseFloat(Numberout);
+      else
+        Currents = parseFloat(Numberout);
+      document.calc.NumberOut.value = Currents;
+      PendingOp = Op;
+    }
+}
+  
+// добавление десятичной точки с числу
+function Decimal () 
+{
+    var curReadOut = document.calc.NumberOut.value;
+    if (FlagNewNum) 
+    {
+      curReadOut = "0.";
+      FlagNewNum = false;
+    }
+    else
+    {
+      if (curReadOut.indexOf(".") == -1)
+        curReadOut += ".";
+    }
+    document.calc.NumberOut.value = curReadOut;
+}
+  
+// Очистка текущего результата
+function ClearEntry () 
+{
+    document.calc.NumberOut.value = "0";
+    FlagNewNum = true;
+}
+  
+// Полная очистка всех результатов
+function Clear () 
+{
+    Currents = 0;
+    PendingOp = "";
+    ClearEntry();
+
+}
+
+
+function NumSqrt() 
+{
+    document.calc.NumberOut.value = Math.sqrt(parseFloat(document.calc.NumberOut.value));
+}
+  
+// вычисляем значение процентов
+function Percent () 
+{
+    document.calc.NumberOut.value = 
+      (parseFloat(document.calc.NumberOut.value) / 100) * 
+      parseFloat(Currents);
+}
+function Pow()
+{
+  document.calc.NumberOut.value = parseFloat(document.calc.NumberOut.value)*parseFloat(document.calc.NumberOut.value);
+  
+}
+function fncSin()
+{
+  document.calc.NumberOut.value=Math.sin(parseFloat(document.calc.NumberOut.value));
+}
+function fncCos()
+{
+  document.calc.NumberOut.value=Math.cos(parseFloat(document.calc.NumberOut.value));
+}
+function fncLn()
+{
+document.calc.NumberOut.value=Math.log(parseFloat(document.calc.NumberOut.value));
+}
+function fncExp()
+{
+document.calc.NumberOut.value=Math.exp(parseFloat(document.calc.NumberOut.value));
+}
+
+</script>
+</head>
+<body>
+		<div>
+<form name="calc" action="">
+     <table cellpadding=0 cellspacing=0>
+     <tr>
+         <td colspan=4 align=middle>
+         	<input id="display" name="NumberOut" type="Text"
+              	size=28 value="0" >
+         </td>
+     </tr>
+     <tr colspan=4>
+     	<td><input name="btnsin" type="button"
+          	value="sin(x)" onclick="fncSin()" />   	  </td>
+         <td><input name="btncos" type="button"
+          	value="cos(x)" onclick="fncCos()" />   	  </td>
+         <td><input name="btnClear" type="Button"
+          	value="C" onclick="Clear()" /></td>
+         <td><input name="btnClearEntry" type="Button"
+          	value="CE" onclick="ClearEntry()" /></td>
+        </tr>
+     <tr colsplay=4>
+     	<td><input name="btnln" type="button"
+          	value="ln(x)" onclick="fncLn()" /> </td>  
+          <td><input name="btnexp" type="button"
+          	value="exp" onclick="fncExp()" /> </td> 
+         <td><input name="btnNumSqrt" type="button"
+          	value="&#8730;x " onclick="NumSqrt()" /> </td>
+          <td><input name="btnPow" type="Button"
+                  value="x&#178;" onclick="Pow()" /></td>
+
+         
+     </tr>
+     <tr>
+         <td><input name="btnSeven" type="Button"
+          	value="7" onclick="GetNumber(7)"></td>
+         <td><input name="btnEight" type="Button"
+          	value="8" onclick="GetNumber(8)"></td>
+         <td><input name="btnNine" type="Button"
+          	value="9" onclick="GetNumber(9)"></td>
+         <td align=middle><input name="btnDivide" type="Button"
+          	value=" / " onclick="Operation('/')" /></td>
+        
+     <tr>
+         <td><input name="btnFour" type="Button"
+          	value="4" onclick="GetNumber(4)"></td>
+         <td><input name="btnFive" type="Button"
+          	value="5" onclick="GetNumber(5)"></td>
+         <td><input name="btnSix" type="Button"
+          	value="6" onclick="GetNumber(6)"></td>
+          <td><input name="btnMultiply" type="Button"
+          	value="*" onclick="Operation('*')" /></td>
+       </tr>
+         
+         
+     </tr>
+     <tr>
+         <td><input name="btnOne" type="Button"
+          	value="1" onclick="GetNumber(1)"></td>
+         <td><input name="btnTwo" type="Button"
+          	value="2" onclick="GetNumber(2)"></td>
+         <td><input name="btnThree" type="Button"
+          	value="3" onclick="GetNumber(3)"></td>
+         <td><input name="btnMinus" type="Button"
+          	value="-" onclick="Operation('-')" /></td>
+         
+          
+         <td align=middle>&nbsp;</td>
+     </tr>
+     <tr>
+         <td><input name="btnZero" type="Button"
+          	value="0" onclick="GetNumber(0)"></td>
+         <td><input name="btnDecimal" type="Button"
+          	value="." onclick="Decimal()"></td>
+         <td><input name="btnPercent" type="Button"
+          	value="%" onclick="Percent()" /></td>
+         <td> <input name="btnPlus" type="Button"
+          	value="+" onclick="Operation('+')" /></td></tr>
+
+         <tr><td colspan="4"><input id="Equals" name="btnEquals"
+          	type="Button" value="=" onclick="Operation('=')"></td>
+     </tr>
+     </table>
+</form>
+</div>
+
+
+</body>
+</html>
+
+
